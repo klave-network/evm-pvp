@@ -1,80 +1,76 @@
-# Klave App EVM Light Client
-Use this template to help you scaffold a new EVM Light Client application.
+# EVM Payment Vs Payment (PvP) Application
+
+This Rust-based template facilitates the development of an EVM-compatible Payment Vs Payment (PvP) application. It enables secure and efficient interactions between parties on Ethereum-based blockchains, focusing on payment-versus-payment scenarios.
 
 ## Usage
-Klave aims to make it easy to build and deploy WebAssembly application within Trusted Execution Environments (TEEs) and leverage the latest
-developments in the [WebAssembly component model](https://github.com/WebAssembly/component-model) and [Wasmtime](https://wasmtime.dev/) runtime.
-For a more detailed documentation, please read the [Klave docs](https://docs.klave.com/sdk/latest).
+
+The EVM PvP application allows users to perform atomic swaps and ensure that payments between two parties are executed simultaneously, mitigating counterparty risk. Leveraging confidential computing, the application ensures that private keys remain non-extractable and operations are secure. On-chain transactions are supported, while cross-chain transactions are not included in this template.
 
 ## Prerequisites
-To use and build this template the following tools must be installed:
-- The [Rust Toolchain](https://www.rust-lang.org/tools/install) (incl. rust, rustup, cargo)
-- Cargo component : `cargo install cargo-component`
-- `wasm32-unknown-unknown` target : `rustup target add wasm32-unknown-unknown`
 
-## Wasm component
-Klave apps are `wasm component`.
-In this template, three methods are implemented, registered and exposed: 
-You can see these methods exposed in the `wit` [interface](https://github.com/klave-network/evm-pvp/blob/main/apps/evm-pvp/wit/world.wit):
-- `export register-routes: func();`
-- `export load-from-ledger: func(cmd: string);`
-- `export insert-in-ledger: func(cmd: string);`
+To build and use this template, ensure the following tools are installed:
 
-1 - The point of entry of the App is the `lib.rs` file and must expose the guest `wasm component` implementation:
+- **Rust Toolchain**: Includes `rust`, `rustup`, and `cargo`. [Install Rust](https://www.rust-lang.org/tools/install)
+- **Cargo Component**: Install via `cargo install cargo-component`
+- **WASM Target**: Add the target with `rustup target add wasm32-unknown-unknown`
 
-```Rust
-#[allow(warnings)]
-mod bindings;
+## Wasm Component
 
-use bindings::Guest;
-use klave;
-struct Component;
+Klave applications are built as WebAssembly (WASM) components. The following methods are implemented and exposed in the `evm-pvp` component:
 
-impl Guest for Component {
+### Network Management
+- `register-routes`: Registers the available routes.
+- `network-add`: Adds a new network.
+- `network-set-chain-id`: Sets the chain ID for a network.
+- `network-set-gas-price`: Sets the gas price for a network.
+- `networks-all`: Lists all configured networks.
 
-    fn register_routes(){
-        // By convention it is better to register the route with their wit names.
-        // It means replacing the `_` by `-`
-        // To call your routes make sure you use the naming you have registered them with.
-        klave::router::add_user_query("your-query-1");
-        klave::router::add_user_transaction("your-transaction-1");
-    }
+### Wallet Management
+- `wallet-add`: Adds a new wallet.
+- `wallet-add-network`: Associates a wallet with a network.
+- `wallet-lock`: Locks a wallet.
+- `wallet-unlock`: Unlocks a wallet.
+- `wallet-address`: Retrieves the wallet's address.
+- `wallet-secret-key`: Retrieves the wallet's secret key.
+- `wallet-public-key`: Retrieves the wallet's public key.
+- `wallet-balance`: Checks the wallet's balance.
+- `wallet-networks`: Lists networks associated with the wallet.
+- `wallet-transfer`: Initiates a transfer from the wallet.
+- `wallet-deploy-contract`: Deploys a Solidity contract.
+- `wallet-call-contract`: Calls a method on a deployed contract.
+- `wallets-all-for-user`: Retrieves all wallets associated with a user.
+- `wallets-all`: Lists all available wallets.
 
-    fn your_query_1(cmd: String){
-        // implement your Query
-    }
+### User Management
+- `user-add`: Adds a new user.
+- `user-get`: Retrieves user details.
+- `user-add-wallet`: Associates a wallet with a user.
+- `users-all`: Lists all registered users.
 
-    fn your_transaction_1(cmd: String){
-        // Implement your Transaction
-    }
-}
+### Transaction Management
+- `transaction-add`: Creates a new transaction.
+- `transaction-get`: Retrieves details of a specific transaction.
+- `transaction-commit`: Commits a transaction.
+- `transaction-apply`: Applies a transaction.
+- `transactions-all-for-user`: Retrieves all transactions associated with a user.
 
-bindings::export!(Component with_types_in bindings);
-```
-Make sure to register each Query or Transaction you want to expose via the `register_routes` method.
+## Deploying Your App on Klave
 
-2 - Expose your `wasm component` interface in the `wit` file.
+To deploy your application on Klave:
 
-```wit
-package component:evm-pvp;
+1. **Build the Application**:
+   ```sh
+   cargo component build --target wasm32-unknown-unknown --release
+   ```
+   This command generates the WASM files in the `target/wasm32-unknown-unknown/release/` directory.
 
-/// An example world for the component to target.
-world evm-pvp {
-    export register-routes: func();
-    ...
-}
-```
-3 - Deploy Your App on Klave
-
-[![Deploy on Klave](https://klave.com/images/deploy-on-klave.svg)](https://app.klave.com/login)
-
-4 - You can also build locally
-`cargo component build --target wasm32-unknown-unknown --release`
-this also create a `target` folder with the built wasm files in  `target\wasm32-unknown-unknown\release\`
+2. **Deploy to Klave**: Follow the deployment instructions provided in the [Klave documentation](https://docs.klave.com/deployment).
 
 ## Authors
 
-This template is created by [Klave](https://klave.com) and [Secretarium](https://secretarium.com) team members, with contributions from:
+This template is created by Klave and Secretarium team members, with contributions from:
 
-- Jeremie Labbe ([@jlabbeklavo](https://github.com/jlabbeKlavo)) - [Klave](https://klave.com) | [Secretarium](https://secretarium.com)
-- Etienne Bosse ([@Gosu14](https://github.com/Gosu14)) - [Klave](https://klave.com) | [Secretarium](https://secretarium.com)
+- Jeremie Labbe ([@jlabbeklavo](https://github.com/jlabbeklavo)) - Klave | Secretarium
+
+For more information and support, refer to the [Klave documentation](https://docs.klave.com) or contact the authors.
+
