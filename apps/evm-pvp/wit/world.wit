@@ -1,0 +1,33 @@
+package component:evm-pvp;
+
+/// An example world for the component to target.
+world evm-pvp {
+    export register-routes: func();
+    export network-add: func(cmd: string);
+    export network-set-chain-id: func(cmd: string);
+    export network-set-gas-price: func(cmd: string);    
+    export networks-all: func(cmd: string);
+    export wallet-add: func(cmd: string);    
+    export wallet-add-network: func(cmd: string);
+    export wallet-lock: func(cmd: string);
+    export wallet-unlock: func(cmd: string);
+    export wallet-address: func(cmd: string);   
+    export wallet-secret-key: func(cmd: string);
+    export wallet-public-key: func(cmd: string);    
+    export wallet-balance: func(cmd: string);
+    export wallet-networks: func(cmd: string);
+    export wallet-transfer: func(cmd: string);
+    export wallet-deploy-contract: func(cmd: string);   
+    export wallet-call-contract: func(cmd: string);
+    export wallets-all-for-user: func(cmd: string);
+    export wallets-all: func(cmd: string);    
+    export user-add: func(cmd: string);
+    export user-get: func(cmd: string);
+    export user-add-wallet: func(cmd: string);
+    export users-all: func(cmd: string);
+    export transaction-add: func(cmd: string);
+    export transaction-get: func(cmd: string);
+    export transaction-commit: func(cmd: string);   
+    export transaction-apply: func(cmd: string);
+    export transactions-all-for-user: func(cmd: string);
+}
