@@ -6,7 +6,7 @@
   "applications": [
     {
       "name": "evm-pvp",
-      "description": "A Json-Rpc API for EVM-compatible chains",
+      "description": "A framework for building on-chain, payment-versus-payment (PVP) interactions on EVM-compatible blockchains.",
       "version": "0.1.0",
       "rootDir": "/apps/evm-pvp"
     }
