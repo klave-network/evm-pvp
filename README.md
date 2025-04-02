@@ -14,6 +14,12 @@ To build and use this template, ensure the following tools are installed:
 - **Cargo Component**: Install via `cargo install cargo-component`
 - **WASM Target**: Add the target with `rustup target add wasm32-unknown-unknown`
 
+## Rust Libraries used
+
+In this template, the following libraries are leveraged:
+- alloy (https://crates.io/crates/alloy)
+- http (https://crates.io/crates/http)
+
 ## Wasm Component
 
 Klave applications are built as WebAssembly (WASM) components. The following methods are implemented and exposed in the `evm-pvp` component:
